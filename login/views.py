@@ -1,5 +1,5 @@
-
-from django.http import HttpResponse
+from oauth2client.client import OAuth2WebServerFlow
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect
 from . import templates
 from django.contrib.auth import authenticate, login
@@ -47,3 +47,18 @@ def logging_in(request):
         return redirect('/authenticate/login')
         # Return an 'invalid login' error message.
         ...	
+
+def google(request):
+    flow = OAuth2WebServerFlow(client_id='57992333576-0se8v3dt80u59hebq7v62fcchgh69e78.apps.googleusercontent.com',
+                           client_secret='BEzkUE-qn0mMWK7HB_lFSfBM',
+                           scope='https://www.googleapis.com/auth/calendar',
+                           redirect_uri='https://56f47de3.ngrok.io/authenticate/redirect')
+    auth_uri = flow.step1_get_authorize_url()
+    print(auth_uri)
+
+    return redirect(auth_uri)
+
+def redirect(request):
+    print(request)
+    return HttpResponseRedirect("/")
+

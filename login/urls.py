@@ -8,5 +8,7 @@ urlpatterns = [
     path('login-submit',views.logging_in),
     path('signup',views.signup),
     path('signup_submit',views.signup_submit),
-    path('logout',views.logout)
+    path('logout',views.logout),
+    path('google',views.google),
+    path('redirect',views.redirect)
 ]
