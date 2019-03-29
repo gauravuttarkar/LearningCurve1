@@ -55,8 +55,8 @@ def google(request):
                            redirect_uri='https://56f47de3.ngrok.io/authenticate/redirect')
     auth_uri = flow.step1_get_authorize_url()
     print(auth_uri)
-
-    return redirect(auth_uri)
+    print("redirecting")
+    return HttpResponseRedirect(auth_uri)
 
 def redirect(request):
     print(request)
