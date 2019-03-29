@@ -6,4 +6,4 @@ from django.contrib.auth.models import User
 from django.contrib import auth
 
 def home(request):
-	return render(request,'IOT/templates/index.html')
+	return render(request,'mysite/templates/index.html')
