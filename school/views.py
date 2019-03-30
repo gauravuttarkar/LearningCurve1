@@ -44,6 +44,7 @@ def school_submit(request):
 	school = request.POST.get("schoolname")
 	principal = request.POST.get("principal")
 	password = request.POST.get("password")
+	email = request.POST.get("email")
 	try:
 		user = User.objects.create_user(username=principal,password=password,email=email,is_staff=True)
 		user.save()
@@ -55,3 +56,4 @@ def school_submit(request):
 	schoolObj.save()
 
 	return redirect("/authenticate/login")
+

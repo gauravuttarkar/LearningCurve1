@@ -36,7 +36,6 @@ def signup_select(request):
         return render(request,'login/templates/school.html')
     else:
         return render(request,'login/templates/volunteer.html')
-
 def signup_submit(request):
     print("Creating a new user")
     username = request.POST.get('username')
@@ -55,23 +54,15 @@ def logging_in(request):
     print(user)
     if user is not None:
         auth.login(request,user)
-        return redirect('/')
+        print("Successfull")
+        return HttpResponseRedirect('/authenticate/google')
         # Redirect to a success page.
         ...
     else:
+        print("Fail")
         return redirect('/authenticate/login')
         # Return an 'invalid login' error message.
-
-
-def signup_vol(request):
-    username = request.POST['username']
-    fname = request.POST['fname']
-    lname = request.POST['lname']
-    email = request.POST['email']
-    password = request.POST['password']
-    confpass = request.POST['confpass']
-    
-
+        ...	
 
 def google(request):
     state = str(uuid.uuid4())
@@ -133,3 +124,10 @@ def redirect(request):
 
     return HttpResponseRedirect("/school")
 
+def signup_vol(request):
+    username = request.POST['username']
+    fname = request.POST['fname']
+    lname = request.POST['lname']
+    email = request.POST['email']
+    password = request.POST['password']
+    confpass = request.POST['confpass']

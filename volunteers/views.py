@@ -23,7 +23,7 @@ def vol_submit(request):
 	except:
 	 	return render(request,'login/templates/school.html',{'message':'Username already taken'})
 
-	schoolObj = School.objects.create(principal=user,schoolName=school)
+	schoolObj = Volunteer.objects.create(principal=user,schoolName=school)
 	schoolObj.save()
 
 	return redirect("/authenticate/login")
