@@ -10,6 +10,10 @@ import httplib2
 from googleapiclient.discovery import build
 import datetime
 import pickle
+from oauth2client.file import Storage
+from school.models import School
+import uuid
+from login.models import RedirectState
 # Create your views here.
 def login(request):
 	print("Hitting Home Page Successfull")
@@ -61,11 +65,16 @@ def logging_in(request):
         ...	
 
 def google(request):
+    state = str(uuid.uuid4())
     flow = OAuth2WebServerFlow(client_id='57992333576-0se8v3dt80u59hebq7v62fcchgh69e78.apps.googleusercontent.com',
                            client_secret='BEzkUE-qn0mMWK7HB_lFSfBM',
                            scope='https://www.googleapis.com/auth/calendar',
-                           redirect_uri='https://59c83093.ngrok.io/authenticate/redirect')
+                           redirect_uri='https://59c83093.ngrok.io/authenticate/redirect',
+                           state=state)
     auth_uri = flow.step1_get_authorize_url()
+    user = User.objects.get(id=request.user.id)
+    RedirectState.objects.create(user=user.id, state=state)
+    print(state)
     print(auth_uri)
     print("redirecting")
     return HttpResponseRedirect(auth_uri)
@@ -76,10 +85,28 @@ def redirect(request):
                            scope='https://www.googleapis.com/auth/calendar',
                            redirect_uri='https://59c83093.ngrok.io/authenticate/redirect')
     code = request.GET.get("code")
+    state = request.GET.get("state")
+    redirect_state = RedirectState.objects.get(state=state)
+    user = redirect_state.user
+    print(state)
+    
+    user = User.objects.get(id=user)
+    print("User",user)
+    fileName = user.username
+    # user = User.objects.get(username=fileName)
+    #print(request.user.is_staff)
+    #print("Filename is",fileName)
+    print("File",fileName)
+    print("is staff",user.is_staff)
     credentials = flow.step2_exchange(code)
     http = httplib2.Http()
     http = credentials.authorize(http)
     print(credentials)
+    
+    #storing in the credentials
+    # storage = Storage(fileName)
+    # storage.put(credentials)
+
     service = build('calendar', 'v3', http=http)
     print(service)
     now = datetime.datetime.utcnow().isoformat() + 'Z' # 'Z' indicates UTC time
@@ -94,5 +121,6 @@ def redirect(request):
     for event in events:
         start = event['start'].get('dateTime', event['start'].get('date'))
         print(start, event['summary'])
+
     return HttpResponseRedirect("/calendar")
 
