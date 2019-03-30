@@ -57,3 +57,6 @@ def school_submit(request):
 
 	return redirect("/authenticate/login")
 
+def create_event(request):
+	return HttpResponse("Done")
+

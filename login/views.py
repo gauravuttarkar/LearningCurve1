@@ -69,7 +69,7 @@ def google(request):
     flow = OAuth2WebServerFlow(client_id='57992333576-0se8v3dt80u59hebq7v62fcchgh69e78.apps.googleusercontent.com',
                            client_secret='BEzkUE-qn0mMWK7HB_lFSfBM',
                            scope='https://www.googleapis.com/auth/calendar',
-                           redirect_uri='https://59c83093.ngrok.io/authenticate/redirect',
+                           redirect_uri='https://f97d0c04.ngrok.io/authenticate/redirect',
                            state=state)
     auth_uri = flow.step1_get_authorize_url()
     user = User.objects.get(id=request.user.id)
@@ -83,7 +83,7 @@ def redirect(request):
     flow = OAuth2WebServerFlow(client_id='57992333576-0se8v3dt80u59hebq7v62fcchgh69e78.apps.googleusercontent.com',
                            client_secret='BEzkUE-qn0mMWK7HB_lFSfBM',
                            scope='https://www.googleapis.com/auth/calendar',
-                           redirect_uri='https://59c83093.ngrok.io/authenticate/redirect')
+                           redirect_uri='https://f97d0c04.ngrok.io/authenticate/redirect')
     code = request.GET.get("code")
     state = request.GET.get("state")
     redirect_state = RedirectState.objects.get(state=state)
