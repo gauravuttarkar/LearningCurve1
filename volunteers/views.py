@@ -9,12 +9,14 @@ from django.shortcuts import render, redirect
 # Create your views here.
 
 def vol_submit(request):
+	print("Volunteers entered to db")
 	username = request.POST['username']
-    fname = request.POST['fname']
-    lname = request.POST['lname']
-    email = request.POST['email']
-    password = request.POST['password']
-    confpass = request.POST['confpass']
+	fname = request.POST['fname']
+	lname = request.POST['lname']
+	email = request.POST['email']
+	branch = request.POST['branch']
+	password = request.POST['password']
+	confpass = request.POST['confpass']
 
 	try:
 		user = User.objects.create_user(username=username,password=password,email=email,is_staff=True)
@@ -23,7 +25,7 @@ def vol_submit(request):
 	except:
 	 	return render(request,'login/templates/school.html',{'message':'Username already taken'})
 
-	schoolObj = Volunteer.objects.create(principal=user,schoolName=school)
+	schoolObj = Volunteer.objects.create(volunteer=user,branch=branch)
 	schoolObj.save()
 
 	return redirect("/authenticate/login")
