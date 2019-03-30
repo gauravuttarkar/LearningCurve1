@@ -66,8 +66,8 @@ def logging_in(request):
 
 def google(request):
     state = str(uuid.uuid4())
-    flow = OAuth2WebServerFlow(client_id='57992333576-0se8v3dt80u59hebq7v62fcchgh69e78.apps.googleusercontent.com',
-                           client_secret='BEzkUE-qn0mMWK7HB_lFSfBM',
+    flow = OAuth2WebServerFlow(client_id='57992333576-j6f3balflio7pif1t209dv2evl2a8mm8.apps.googleusercontent.com',
+                           client_secret='NdcXppY4DdTg_Qh5G1DO2w0k',
                            scope='https://www.googleapis.com/auth/calendar',
                            redirect_uri='https://f97d0c04.ngrok.io/authenticate/redirect',
                            state=state)
@@ -80,8 +80,8 @@ def google(request):
     return HttpResponseRedirect(auth_uri)
 
 def redirect(request):
-    flow = OAuth2WebServerFlow(client_id='57992333576-0se8v3dt80u59hebq7v62fcchgh69e78.apps.googleusercontent.com',
-                           client_secret='BEzkUE-qn0mMWK7HB_lFSfBM',
+    flow = OAuth2WebServerFlow(client_id='57992333576-j6f3balflio7pif1t209dv2evl2a8mm8.apps.googleusercontent.com',
+                           client_secret='NdcXppY4DdTg_Qh5G1DO2w0k',
                            scope='https://www.googleapis.com/auth/calendar',
                            redirect_uri='https://f97d0c04.ngrok.io/authenticate/redirect')
     code = request.GET.get("code")
@@ -107,13 +107,7 @@ def redirect(request):
     storage = Storage(fileName)
     storage.put(credentials)
 
-
-    return HttpResponseRedirect("/school")
-
-def signup_vol(request):
-    username = request.POST['username']
-    fname = request.POST['fname']
-    lname = request.POST['lname']
-    email = request.POST['email']
-    password = request.POST['password']
-    confpass = request.POST['confpass']
+    if user.is_staff:
+        return HttpResponseRedirect("/school")
+    else:
+        return HttpResponseRedirect("/volunteers")

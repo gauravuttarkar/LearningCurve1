@@ -11,6 +11,7 @@ from oauth2client.file import Storage
 from googleapiclient.discovery import build
 import httplib2
 import datetime
+from volunteers.models import Volunteer 
 # Create your views here.
 
 
@@ -131,6 +132,16 @@ def event_detail(request,eventId):
 	di['creator'] = event['creator']['displayName']
 	di['email'] = event['creator']['email']
 	di['description'] = event['description']
-
-	return render(request, "school/templates/eventDetail.html", {'event':di})
+	volunteers = User.objects.all().filter(is_staff=False)
+	volunteerDict = {}
+	listOfVolunteers = []
+	for volunteer in volunteers:
+		print(volunteer.username)
+		volunteerDict['username'] = volunteer.username
+		volunteerObj = Volunteer.objects.get(volunteer=volunteer)
+		print(volunteerObj.field)
+		volunteerDict['field'] = volunteerObj.field
+		listOfVolunteers.append(volunteerDict)
+	return render(request, "school/templates/eventDetail.html", {'event':di,
+																 'volunteers':listOfVolunteers})
 

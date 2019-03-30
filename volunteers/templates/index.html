@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Volunteer</title>
+</head>
+<body>
+	{% for volunteer in volunteers %}
+	{{ volunteer.username }}
+	{{ volunteer.field }}
+	
+	{% endfor %}
+</body>
+</html>

@@ -9,7 +9,7 @@ urlpatterns = [
     path('signup', views.signup , name="signup"),
     path('signup_select',views.signup_select),
     path('signup_submit',views.signup_submit),
-    path('signup_vol', views.signup_vol, name = "volunteerSign"),
+    #path('signup_vol', views.signup_vol, name = "volunteerSign"),
     path('logout',views.logout),
     path('google',views.google),
     path('redirect',views.redirect)
