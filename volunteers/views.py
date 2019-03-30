@@ -18,6 +18,7 @@ def vol_submit(request):
 	lname = request.POST['lname']
 	email = request.POST['email']
 	field = request.POST['field']
+	loc = request.POST['loc']
 	password = request.POST['password']
 	confpass = request.POST['confpass']
 
@@ -28,7 +29,7 @@ def vol_submit(request):
 	except:
 	 	return render(request,'login/templates/school.html',{'message':'Username already taken'})
 
-	schoolObj = Volunteer.objects.create(volunteer=user,field=field)
+	schoolObj = Volunteer.objects.create(volunteer=user,field=field, location = loc)
 	schoolObj.save()
 
 	return redirect("/authenticate/login")

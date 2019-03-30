@@ -96,7 +96,6 @@ def create_event(request):
 		'dateTime': endDate + 'T' + endTime + ":00",
 		'timeZone': '(GMT+05.30)',
 		},
-\
 		'recurrence': [
 		'RRULE:FREQ=DAILY;COUNT=1'
 		],
