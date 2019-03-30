@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Event Detail</title>
+</head>
+<body>
+	<div>{{event.creator}}</div>
+	<div>{{event.email}}</div>
+	<div>{{event.description}}</div>
+	<form method="POST" action="/school/confirm_volunteers" >
+	{% for volunteer in volunteers %}
+	{{ volunteer.username }}
+	{{ volunteer.field }}
+	{% endfor %}
+</body>
+</html>

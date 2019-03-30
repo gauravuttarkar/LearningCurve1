@@ -66,10 +66,10 @@ def logging_in(request):
 
 def google(request):
     state = str(uuid.uuid4())
-    flow = OAuth2WebServerFlow(client_id='57992333576-0se8v3dt80u59hebq7v62fcchgh69e78.apps.googleusercontent.com',
-                           client_secret='BEzkUE-qn0mMWK7HB_lFSfBM',
+    flow = OAuth2WebServerFlow(client_id='57992333576-j6f3balflio7pif1t209dv2evl2a8mm8.apps.googleusercontent.com',
+                           client_secret='NdcXppY4DdTg_Qh5G1DO2w0k',
                            scope='https://www.googleapis.com/auth/calendar',
-                           redirect_uri='https://59c83093.ngrok.io/authenticate/redirect',
+                           redirect_uri='https://f97d0c04.ngrok.io/authenticate/redirect',
                            state=state)
     auth_uri = flow.step1_get_authorize_url()
     user = User.objects.get(id=request.user.id)
@@ -80,10 +80,10 @@ def google(request):
     return HttpResponseRedirect(auth_uri)
 
 def redirect(request):
-    flow = OAuth2WebServerFlow(client_id='57992333576-0se8v3dt80u59hebq7v62fcchgh69e78.apps.googleusercontent.com',
-                           client_secret='BEzkUE-qn0mMWK7HB_lFSfBM',
+    flow = OAuth2WebServerFlow(client_id='57992333576-j6f3balflio7pif1t209dv2evl2a8mm8.apps.googleusercontent.com',
+                           client_secret='NdcXppY4DdTg_Qh5G1DO2w0k',
                            scope='https://www.googleapis.com/auth/calendar',
-                           redirect_uri='https://59c83093.ngrok.io/authenticate/redirect')
+                           redirect_uri='https://f97d0c04.ngrok.io/authenticate/redirect')
     code = request.GET.get("code")
     state = request.GET.get("state")
     redirect_state = RedirectState.objects.get(state=state)
@@ -107,27 +107,7 @@ def redirect(request):
     storage = Storage(fileName)
     storage.put(credentials)
 
-    # service = build('calendar', 'v3', http=http)
-    # print(service)
-    # now = datetime.datetime.utcnow().isoformat() + 'Z' # 'Z' indicates UTC time
-    # print('Getting the upcoming 10 events')
-    # events_result = service.events().list(calendarId='primary', timeMin=now,
-    #                                     maxResults=10, singleEvents=True,
-    #                                     orderBy='startTime').execute()
-    # events = events_result.get('items', [])
-
-    # if not events:
-    #     print('No upcoming events found.')
-    # for event in events:
-    #     start = event['start'].get('dateTime', event['start'].get('date'))
-    #     print(start, event['summary'])
-
-    return HttpResponseRedirect("/school")
-
-def signup_vol(request):
-    username = request.POST['username']
-    fname = request.POST['fname']
-    lname = request.POST['lname']
-    email = request.POST['email']
-    password = request.POST['password']
-    confpass = request.POST['confpass']
+    if user.is_staff:
+        return HttpResponseRedirect("/school")
+    else:
+        return HttpResponseRedirect("/volunteers")

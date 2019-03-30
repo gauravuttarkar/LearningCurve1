@@ -2,6 +2,11 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
   <!-- Standard Meta -->
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
@@ -61,6 +66,11 @@
     .column {
       max-width: 450px;
     }
+    #map {
+   width: 100%;
+   height: 400px;
+   background-color: grey;
+  }
   </style>
   <script>
   $(document)
@@ -135,23 +145,56 @@
         <div class="field">
           <div class="ui left icon input">
             <i class="user icon"></i>
-            <input type="email" name="email" placeholder="Email">
+            <input type="text" name="location" placeholder="Location">
           </div>
         </div>
         <div class="field">
           <div class="ui left icon input">
             <i class="user icon"></i>
-            <select name="branch" id="branch" class="form-control" placeholder="Select your domain">
+            <input type="email" name="email" placeholder="Email">
+          </div>
+        </div>
+        <button type="button" class="btn btn-info " data-toggle="modal" data-target="#myModal" onclick ="initMap()">Add your location</button>
+
+            <!-- Modal -->
+            <div id="myModal" class="modal fade" role="dialog">
+              <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h4 class="modal-title">Add your location</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    
+                  </div>
+                  <div class="modal-body">
+      
+                    <div id="map"></div>
+            
+                    
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                  </div>
+                </div>
+
+              </div>
+
+            </div>
+        <div class="field">
+          <div class="ui left icon input">
+            <i class="user icon"></i>
+            <select name="field" id="branch" class="form-control" placeholder="Select your domain">
               <option value="NaN">Select an option</option>
-              <option value="SC">Science</option>
-              <option value="SS">Social Science</option>
-              <option value="MA">Math</option>
-              <option value="EN">English</option>
-              <option value="KA">Kannada</option>
-              <option value="EC">Extra curricular activities</option>
-              <option value="HI">Hindi</option>
-              <option value="SG">Singing</option>
-              <option value="SP">Sports</option>
+              <option value="Science">Science</option>
+              <option value="Social Science">Social Science</option>
+              <option value="Math">Math</option>
+              <option value="English">English</option>
+              <option value="Kannada">Kannada</option>
+              <option value="Extra curricular activities">Extra curricular activities</option>
+              <option value="Hindi">Hindi</option>
+              <option value="Singing">Singing</option>
+              <option value="Sports">Sports</option>
             </select>
           </div>
         </div>
@@ -182,6 +225,59 @@
     </div> -->
   </div>
 </div>
+  <script>
+// Initialize and add the map
+function initMap() {
+  // The location of Uluru
+  var uluru = {lat: -25.344, lng: 131.036};
+  // The map, centered at Uluru
+  var map = new google.maps.Map(
+      document.getElementById('map'), {zoom: 12, center: uluru});
+  
+
+  infoWindow = new google.maps.Marker;
+
+        // Try HTML5 geolocation.
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(function(position) {
+            var pos = {
+              lat: position.coords.latitude,
+              lng: position.coords.longitude
+            };
+
+           
+            map.setCenter(pos);
+            var marker = new google.maps.Marker({
+              position: pos,
+              map: map,
+              title: 'Hello World!',
+              draggable: true
+            });
+
+          marker.addListener('dragend', function() {
+            map.setZoom(16);
+            pos = marker.getPosition();
+            map.setCenter(pos);
+            console.log(pos.lat(),pos.lng()) ; 
+            document.getElementById("loc").value = pos.lat().toString() +","+ pos.lng().toString() ;
+
+          });
+            console.log(pos);
+            document.getElementById("loc").value = pos.lat.toString() +","+  pos.lng.toString() ;
+          }, function() {
+            handleLocationError(true, infoWindow, map.getCenter());
+          });
+        } else {
+          // Browser doesn't support Geolocation
+          handleLocationError(false, infoWindow, map.getCenter());
+        }
+}
+    </script>
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCSXeX3rYsGXTZDiLEQDk5SodYFN9JSN4A
+
+&callback=initMap">
+    </script>
 
 </body>
 

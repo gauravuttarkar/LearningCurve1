@@ -6,5 +6,6 @@ from django.urls import path, include
 urlpatterns = [
 	
     path('vol_submit', views.vol_submit),
+    path('',views.index),
 
 ]

@@ -6,8 +6,47 @@
 <body>
 	<ol>
 		{% for event in events %}
-		<li> {{ event}} </li>	
+		<li> {{ event.summary}} {{event.id}} <a href="/school/event/{{event.id}}">Click here </a></li>	
 		{% endfor %}
 	</ol>
+
+	<div>
+		<form method="POST" action="/school/create_event">
+			<div>
+				<label> Summary:</label>
+	        	<input type="text" name="summary"> 
+	        	
+	        </div>
+			<div class="field">
+	          <div class="ui left icon input">
+	            <i class="user icon"></i>
+	            <label> Field of interest:</label>
+	            <select name="branch" id="branch" class="form-control" placeholder="Select your domain">
+	              <option value="NaN">Select an option</option>
+	              <option value="Science">Science</option>
+	              <option value="Social Science">Social Science</option>
+	              <option value="Math">Math</option>
+	              <option value="English">English</option>
+	              <option value="Kannada">Kannada</option>
+	              <option value="Extra curricular activities">Extra curricular activities</option>
+	              <option value="Hindi">Hindi</option>
+	              <option value="Singing">Singing</option>
+	              <option value="Sports">Sports</option>
+	            </select>
+	          </div>
+	        </div>
+	        <div>
+	        	<label> Start date and time</label>
+	        	<input type="date" name="startDate"> 
+	        	<input type="time" name="startTime">
+	        </div>
+	       	<div>
+	       		<label> End date and time</label>
+	       		<input type="date" name="endDate"> 
+	        	<input type="time" name="endTime">
+	        </div>
+			<button class="ui fluid large teal submit button">Create Event</button>
+		</form>
+	</div>
 </body>
 </html>

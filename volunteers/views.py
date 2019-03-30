@@ -8,24 +8,27 @@ from volunteers.models import Volunteer
 from django.shortcuts import render, redirect
 # Create your views here.
 
+def index(request):
+	return render(request,"volunteers/templates/index.html")
+
 def vol_submit(request):
 	print("Volunteers entered to db")
 	username = request.POST['username']
 	fname = request.POST['fname']
 	lname = request.POST['lname']
 	email = request.POST['email']
-	branch = request.POST['branch']
+	field = request.POST['field']
 	password = request.POST['password']
 	confpass = request.POST['confpass']
 
 	try:
-		user = User.objects.create_user(username=username,password=password,email=email,is_staff=True)
+		user = User.objects.create_user(username=username,password=password,email=email,is_staff=False)
 		user.save()
 		print("User created")
 	except:
 	 	return render(request,'login/templates/school.html',{'message':'Username already taken'})
 
-	schoolObj = Volunteer.objects.create(volunteer=user,branch=branch)
+	schoolObj = Volunteer.objects.create(volunteer=user,field=field)
 	schoolObj.save()
 
 	return redirect("/authenticate/login")
