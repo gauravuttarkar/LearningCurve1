@@ -44,6 +44,7 @@ def school_submit(request):
 	school = request.POST.get("schoolname")
 	principal = request.POST.get("principal")
 	password = request.POST.get("password")
+	location = request.POST.get("location")
 	email = request.POST.get("email")
 	try:
 		user = User.objects.create_user(username=principal,password=password,email=email,is_staff=True)
@@ -52,11 +53,61 @@ def school_submit(request):
 	except:
 	 	return render(request,'login/templates/school.html',{'message':'Username already taken'})
 
-	schoolObj = School.objects.create(principal=user,schoolName=school)
+	schoolObj = School.objects.create(principal=user,schoolName=school,location=location)
 	schoolObj.save()
 
 	return redirect("/authenticate/login")
 
 def create_event(request):
+	branch = request.POST.get("branch")
+	startTime = request.POST.get("startTime")
+	endTime = request.POST.get("endTime")
+	startDate = request.POST.get("startDate")
+	endDate = request.POST.get("endDate")
+	summary = request.POST.get("summary")
+	print(startDate,endDate,startTime,endTime)
+	fileName = request.user.username
+	storage = Storage(fileName)
+	credentials = storage.get()
+	print(credentials)
+	http = httplib2.Http()
+	http = credentials.authorize(http)
+	schoolObj = School.objects.get(principal=request.user)
+	print(schoolObj)
+	print(schoolObj.location)
+	location = schoolObj.location
+	#print(location)
+	service = build('calendar', 'v3', http=http)
+	event = {
+		'summary': summary,
+		'location': location,
+		'description': branch,
+		'start': {
+		'dateTime': startDate + 'T' + startTime + ":00",
+		'timeZone': '(GMT+05.30)',
+		},
+		'end': {
+		'dateTime': endDate + 'T' + endTime + ":00",
+		'timeZone': '(GMT+05.30)',
+		},
+\
+		'recurrence': [
+		'RRULE:FREQ=DAILY;COUNT=1'
+		],
+		'attendees': [
+		{'email': 'lpage@example.com'},
+		{'email': 'sbrin@example.com'},
+		],
+		'reminders': {
+		'useDefault': False,
+		'overrides': [
+		{'method': 'email', 'minutes': 24 * 60},
+		{'method': 'popup', 'minutes': 10},
+		],
+		},
+	}
+	event = service.events().insert(calendarId='primary', body=event).execute()
+
+
 	return HttpResponse("Done")
 
