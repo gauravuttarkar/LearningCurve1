@@ -19,11 +19,14 @@ from . import views
 from django.urls import path, include
 from login import urls as login_urls
 from school import urls as school_urls
+from volunteers import urls as volunteer_urls
+
 urlpatterns = [
 	
     path('admin/', admin.site.urls),
     path('authenticate/',include(login_urls)),
     path('school/',include(school_urls)),
+    path('volunteers/',include(volunteer_urls)),
     path('',views.home),
 
 ]

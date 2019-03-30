@@ -124,3 +124,10 @@ def redirect(request):
 
     return HttpResponseRedirect("/school")
 
+def signup_vol(request):
+    username = request.POST['username']
+    fname = request.POST['fname']
+    lname = request.POST['lname']
+    email = request.POST['email']
+    password = request.POST['password']
+    confpass = request.POST['confpass']
