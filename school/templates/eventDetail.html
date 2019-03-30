@@ -8,9 +8,15 @@
 	<div>{{event.email}}</div>
 	<div>{{event.description}}</div>
 	<form method="POST" action="/school/confirm_volunteers" >
+	<div>
 	{% for volunteer in volunteers %}
 	{{ volunteer.username }}
 	{{ volunteer.field }}
+	
+	<input type="checkbox" name="volunteer" value="{{volunteer.username}}"/>
 	{% endfor %}
+	</div>
+	<button type="submit">Submit</button>
+	</form>
 </body>
 </html>

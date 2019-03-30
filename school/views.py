@@ -145,3 +145,8 @@ def event_detail(request,eventId):
 	return render(request, "school/templates/eventDetail.html", {'event':di,
 																 'volunteers':listOfVolunteers})
 
+def confirm_volunteers(request):
+	print("Inside confirm")
+	print(request.POST.getlist("volunteer"))
+	return HttpResponse("Done")
+
