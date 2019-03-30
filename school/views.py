@@ -1,4 +1,4 @@
-
+from oauth2client.client import OAuth2WebServerFlow
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.forms import UserCreationForm
@@ -7,7 +7,16 @@ from django.contrib import auth
 from django.http import HttpResponse
 from school.models import School
 from django.shortcuts import render, redirect
+from oauth2client.file import Storage
 # Create your views here.
+
+
+def index(request):
+	fileName = request.user.username
+	storage = Storage(fileName)
+	credentials = storage.get()
+	print(credentials)
+	return HttpResponse("Done")
 
 def school_submit(request):
 	print(request)
