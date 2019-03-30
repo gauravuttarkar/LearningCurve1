@@ -14,15 +14,14 @@ def school_submit(request):
 	school = request.POST.get("schoolname")
 	principal = request.POST.get("principal")
 	password = request.POST.get("password")
-	email = request.POST.get("email")
 	try:
-		user = User.objects.create_user(username=principal,password=password,email=email)
+		user = User.objects.create_user(username=principal,password=password,email=email,is_staff=True)
 		user.save()
+		print("User created")
 	except:
-		return render(request,'login/templates/school.html',{'message':'Username already taken'})
+	 	return render(request,'login/templates/school.html',{'message':'Username already taken'})
 
 	schoolObj = School.objects.create(principal=user,schoolName=school)
 	schoolObj.save()
 
 	return redirect("/authenticate/login")
-
