@@ -50,10 +50,12 @@ def logging_in(request):
     print(user)
     if user is not None:
         auth.login(request,user)
-        return redirect('/')
+        print("Successfull")
+        return HttpResponseRedirect('/authenticate/google')
         # Redirect to a success page.
         ...
     else:
+        print("Fail")
         return redirect('/authenticate/login')
         # Return an 'invalid login' error message.
         ...	
