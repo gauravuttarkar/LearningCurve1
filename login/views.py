@@ -36,14 +36,7 @@ def signup_select(request):
         return render(request,'login/templates/school.html')
     else:
         return render(request,'login/templates/volunteer.html')
-def signup_submit(request):
-    print("Creating a new user")
-    username = request.POST.get('username')
-    password = request.POST.get('password')
-    email = request.POST.get('email')
-    user = User.objects.create_user(username, email,password)
-    user.save()
-    return redirect('/authenticate/login')
+
 
 
 
