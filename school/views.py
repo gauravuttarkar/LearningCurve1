@@ -33,9 +33,13 @@ def index(request):
 	if not events:
 	    print('No upcoming events found.')
 	for event in events:
+	    di = {}
 	    start = event['start'].get('dateTime', event['start'].get('date'))
 	    print(start, event['summary'])
-	    eventList.append(event['summary'])
+	    di['summary'] = event['summary']
+	    di['id'] = event['id']
+	   
+	    eventList.append(di)
 	#return HttpResponse("Done")
 	return render(request,"school/templates/index.html",{'events':eventList})
 
@@ -110,4 +114,23 @@ def create_event(request):
 
 
 	return HttpResponse("Done")
+
+def event_detail(request,eventId):
+	print(eventId)
+	fileName = request.user.username
+	storage = Storage(fileName)
+	credentials = storage.get()
+	print(credentials)
+	http = httplib2.Http()
+	http = credentials.authorize(http)
+	service = build('calendar', 'v3', http=http)
+	event = service.events().get(calendarId='primary',eventId=eventId).execute()
+	#event = service.events().get(id=eventId)
+	print(event)
+	di = {}
+	di['creator'] = event['creator']['displayName']
+	di['email'] = event['creator']['email']
+	di['description'] = event['description']
+
+	return render(request, "school/templates/eventDetail.html", {'event':di})
 

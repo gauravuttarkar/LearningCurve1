@@ -6,7 +6,7 @@
 <body>
 	<ol>
 		{% for event in events %}
-		<li> {{ event}} </li>	
+		<li> {{ event.summary}} {{event.id}} <a href="/school/event/{{event.id}}">Click here </a></li>	
 		{% endfor %}
 	</ol>
 
