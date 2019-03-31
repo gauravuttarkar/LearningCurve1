@@ -6,9 +6,28 @@ from django.contrib import auth
 from django.http import HttpResponse
 from volunteers.models import Volunteer
 from django.shortcuts import render, redirect
+from school.models import Prospective, Request
 # Create your views here.
 
 def index(request):
+	requestObj = Request.objects.all()
+	print(request.user.username)
+	requestList = []
+	for req in requestObj:
+		li = Prospective.objects.all().filter(username=request.user.username,request=req)
+		print(li)
+		if(len(li)>0):
+			requestList.append(req)
+
+	finalReqList = []
+	for req in requestList:
+		reqDict = {}
+		reqDict['school'] = req.school
+		reqDict['startTime'] = req.startTime
+		reqDict['endTime'] = req.endTime
+		finalReqList.append(reqDict)
+
+	print(finalReqList)
 	return render(request,"volunteers/templates/index.html")
 
 def vol_submit(request):

@@ -16,6 +16,8 @@
 	<input type="checkbox" name="volunteer" value="{{volunteer.username}}"/>
 	{% endfor %}
 	</div>
+	<input type="hidden" name="startTime" value="{{event.startTime}}">
+	<input type="hidden" name="endTime" value="{{event.endTime}}">
 	<button type="submit">Submit</button>
 	</form>
 </body>

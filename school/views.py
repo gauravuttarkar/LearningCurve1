@@ -5,7 +5,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.contrib import auth
 from django.http import HttpResponse
-from school.models import School
+from school.models import School, Request, Prospective
 from django.shortcuts import render, redirect
 from oauth2client.file import Storage
 from googleapiclient.discovery import build
@@ -78,6 +78,7 @@ def create_event(request):
 	print(credentials)
 	http = httplib2.Http()
 	http = credentials.authorize(http)
+	print(request.user.username)
 	schoolObj = School.objects.get(principal=request.user)
 	print(schoolObj)
 	print(schoolObj.location)
@@ -132,10 +133,13 @@ def event_detail(request,eventId):
 	di['creator'] = event['creator']['displayName']
 	di['email'] = event['creator']['email']
 	di['description'] = event['description']
+	di['startTime'] = event['start']['dateTime']
+	di['endTime'] = event['end']['dateTime']
 	volunteers = User.objects.all().filter(is_staff=False)
 	volunteerDict = {}
 	listOfVolunteers = []
 	for volunteer in volunteers:
+		volunteerDict = {}
 		print(volunteer.username)
 		volunteerDict['username'] = volunteer.username
 		volunteerObj = Volunteer.objects.get(volunteer=volunteer)
@@ -147,6 +151,14 @@ def event_detail(request,eventId):
 
 def confirm_volunteers(request):
 	print("Inside confirm")
-	print(request.POST.getlist("volunteer"))
+	listOfVolunteers = request.POST.getlist("volunteer")
+	startTime = request.POST.get("startTime")
+	endTime = request.POST.get("endTime")
+	print(request.user.username)
+	schoolObj = School.objects.get(principal=request.user)
+	requestObj = Request.objects.create(school=schoolObj, startTime=startTime, endTime=endTime, allocated=None)
+	for volunteer in listOfVolunteers:
+		Prospective.objects.create(request=requestObj, username=volunteer)
+	print("All created") 
 	return HttpResponse("Done")
 
