@@ -11,3 +11,5 @@ payload={
 r = requests.get(url, params=payload)
 results = r.json()
 print(results)
+print(results['rows'][0]['elements'][0]['distance']['text'])
+print(results['rows'][0]['elements'][0]['duration']['text'])

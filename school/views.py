@@ -115,7 +115,7 @@ def create_event(request):
 	event = service.events().insert(calendarId='primary', body=event).execute()
 
 
-	return HttpResponse("Done")
+	return redirect("/school")
 
 def event_detail(request,eventId):
 	print(eventId)
@@ -160,5 +160,5 @@ def confirm_volunteers(request):
 	for volunteer in listOfVolunteers:
 		Prospective.objects.create(request=requestObj, username=volunteer)
 	print("All created") 
-	return HttpResponse("Done")
+	return render("/school")
 
