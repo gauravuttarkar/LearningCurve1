@@ -76,6 +76,7 @@ def calculateDistace(d1,d2):
 	return [distance, duration]
 
 def index(request):
+	print('IN index',request.user.username)
 	yourEvents = Request.objects.all().filter(allocated=request.user.username)
 
 	yourList = []

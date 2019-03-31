@@ -21,14 +21,14 @@
 		<tr>
 			<th>Sl. No</th>
 			<th>Summary</th>
-			<th>ID</th>
+			
     		<th>URL</th>
 		</tr>
 		{% for event in events %}
 		<tr>
 			<td>{{forloop.counter}}</td>
 			<td>{{event.summary}}</td>
-			<td>{{event.id}}</td>
+			
 			<td><a href="/school/event/{{event.id}}">Click here </a></td>
 		</tr>
 		{% endfor %}

@@ -2,23 +2,57 @@
 <html>
 <head>
 	<title>Event Detail</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+	  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 </head>
 <body>
-	<div>{{event.creator}}</div>
-	<div>{{event.email}}</div>
-	<div>{{event.description}}</div>
-	<form method="POST" action="/school/confirm_volunteers" >
-	<div>
-	{% for volunteer in volunteers %}
-	{{ volunteer.username }}
-	{{ volunteer.field }}
-	
-	<input type="checkbox" name="volunteer" value="{{volunteer.username}}"/>
-	{% endfor %}
+	<div class="container">
+		<div class="jumbotron jumbotron-fluid">
+		  <div class="container">
+		    <h1 class="display-4">Welcome {{request.user.username}}</h1>
+		  </div>
+		</div>
+		<h2>Free Slots</h2>
+		<!-- <div>School Name: {{event.creator}}</div> -->
+		<div>School Email: {{event.email}}</div>
+		<div>Summary: {{event.description}}</div>
+		<form method="POST" action="/school/confirm_volunteers" >
+		<div>
+		<h4>Applied Volunteers</h4>
+		<table class="table table-bordered" style="width:8	0%;margin: 0 auto;">
+			<tr>
+				<th>Sl No</th>
+				<th>Username</th>
+				<th>Summary</th>
+				<th>Tick</th>
+	    		
+			</tr>
+			{% for volunteer in volunteers %}
+			
+			<tr>
+				<td>{{forloop.counter}}</td>
+				<td>{{ volunteer.username }}</td>
+				<td>{{ volunteer.field }}</td>
+				<td><input type="checkbox" class="form-control" name="volunteer" value="{{volunteer.username}}"/></td>
+			</tr>
+			
+			
+			
+
+			
+			{% endfor %}
+			</div>
+			<input type="hidden" class="form-control" name="startTime" value="{{event.startTime}}">
+			<input type="hidden" class="form-control" name="endTime" value="{{event.endTime}}">
+			<input type="hidden" class="form-control" name="id" value="{{event.id}}">
+			<button type="submit">Submit</button>
+			</form>
+
+		</table>
 	</div>
-	<input type="hidden" name="startTime" value="{{event.startTime}}">
-	<input type="hidden" name="endTime" value="{{event.endTime}}">
-	<button type="submit">Submit</button>
-	</form>
+
 </body>
 </html>

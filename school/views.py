@@ -13,7 +13,16 @@ import httplib2
 import datetime
 from volunteers.models import Volunteer 
 # Create your views here.
-
+def deleteCalendar(request,eventid):
+	fileName = request.user.username
+	storage = Storage(fileName)
+	credentials = storage.get()
+	print(credentials)
+	http = httplib2.Http()
+	http = credentials.authorize(http)
+	service = build('calendar', 'v3', http=http)
+	service.events().delete(calendarId='primary', eventId=eventid).execute()
+	return
 
 def index(request):
 	fileName = request.user.username
@@ -130,11 +139,12 @@ def event_detail(request,eventId):
 	#event = service.events().get(id=eventId)
 	print(event)
 	di = {}
-	di['creator'] = event['creator']['displayName']
+	#di['creator'] = event['creator']['displayName']
 	di['email'] = event['creator']['email']
 	di['description'] = event['description']
 	di['startTime'] = event['start']['dateTime']
 	di['endTime'] = event['end']['dateTime']
+	di['id'] = event['id']
 	volunteers = User.objects.all().filter(is_staff=False)
 	volunteerDict = {}
 	listOfVolunteers = []
@@ -154,11 +164,14 @@ def confirm_volunteers(request):
 	listOfVolunteers = request.POST.getlist("volunteer")
 	startTime = request.POST.get("startTime")
 	endTime = request.POST.get("endTime")
+	eventid = request.POST.get("id")
+	print(eventid)
 	print(request.user.username)
 	schoolObj = School.objects.get(principal=request.user)
 	requestObj = Request.objects.create(school=schoolObj, startTime=startTime, endTime=endTime, allocated=None)
 	for volunteer in listOfVolunteers:
 		Prospective.objects.create(request=requestObj, username=volunteer)
+	deleteCalendar(request,eventid)
 	print("All created") 
-	return render("/school")
+	return redirect("/school")
 
