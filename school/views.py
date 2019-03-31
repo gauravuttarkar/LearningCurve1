@@ -42,7 +42,7 @@ def index(request):
 	   
 	    eventList.append(di)
 	#return HttpResponse("Done")
-	return render(request,"school/templates/index.html",{'events':eventList})
+	return render(request,"school/templates/index.html",{'user':request.user,'events':eventList})
 
 def school_submit(request):
 	print(request)
@@ -146,7 +146,7 @@ def event_detail(request,eventId):
 		print(volunteerObj.field)
 		volunteerDict['field'] = volunteerObj.field
 		listOfVolunteers.append(volunteerDict)
-	return render(request, "school/templates/eventDetail.html", {'event':di,
+	return render(request, "school/templates/eventDetail.html", {'user':request.user,'event':di,
 																 'volunteers':listOfVolunteers})
 
 def confirm_volunteers(request):

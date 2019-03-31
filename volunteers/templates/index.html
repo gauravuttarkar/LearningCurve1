@@ -2,12 +2,73 @@
 <html>
 <head>
 	<title>Volunteer</title>
+	  <link rel="stylesheet" type="text/css" href="{% static 'components/reset.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'components/site.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'components/container.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'components/grid.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'components/header.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'components/image.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'components/menu.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'components/divider.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'components/dropdown.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'components/segment.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'components/button.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'components/list.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'components/icon.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'components/sidebar.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'components/transition.css' %}">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+  <script src="{% static 'components/visibility.js' %}"></script>
+  <script src="{% static 'components/sidebar.js' %}"></script>
+  <script src="{% static 'components/transition.js' %}"></script>
 </head>
 <body>
-	{% for volunteer in volunteers %}
-	{{ volunteer.username }}
-	{{ volunteer.field }}
+<div class="ui large top fixed hidden menu">
+  <div class="ui container">
+        <a class="toc item">
+          <i class="sidebar icon"></i>
+        </a>
+
+        {% if user.is_authenticated %}
+        
+        <div class="right item">
+          <a class="ui  button" style="margin-right: 10px">Hello {{ user.username }}</a>
+          <a class="ui  button" href="/logout">Logout</a>
+        </div>
+        {% else %}
+         <div class="right item">
+          <a class="ui  button" style="margin-right: 10px "href="/login">Login</a>
+          <a class="ui  button" href="/signup">Sign Up</a>
+        </div>
+        {% endif %}
+  </div>
+</div>
+	<h2>
+		Your classes
+	</h2>
+	<ol>
+	{% for req in yourList %}
+	<li>
+	{{ req.school }}
+	{{ req.startTime }}
+	{{ req.endTIme}}
+	</li>
 	
 	{% endfor %}
+	</ol>
+	<h2>List of available classes</h2>
+	<form method="POST" action="/volunteers/confirm_events">
+	<ol>
+	{% for req in requestList %}
+	<li>
+	{{ req.school }}
+	{{ req.startTime }}
+	{{ req.endTIme}}
+	</li>
+	<input type="checkbox" name="selectedEvent" value="{{req.id}}">
+	{% endfor %}
+	</ol>
+	<button type="submit">Submit</button>
+	</form>
 </body>
 </html>

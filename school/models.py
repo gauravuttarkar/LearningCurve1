@@ -12,7 +12,7 @@ class Request(models.Model):
 	startTime = models.CharField(max_length=100)
 	endTime = models.CharField(max_length=100)
 	allocated = models.CharField(max_length=100,default=None,null=True)
-
+	
 class Prospective(models.Model):
 	request = models.ForeignKey(Request,on_delete=models.CASCADE)
 	username = models.CharField(max_length=100,default="")
