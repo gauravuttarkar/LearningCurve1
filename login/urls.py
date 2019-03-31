@@ -12,5 +12,6 @@ urlpatterns = [
     #path('signup_vol', views.signup_vol, name = "volunteerSign"),
     path('logout',views.logout),
     path('google',views.google),
-    path('redirect',views.redirect)
+    path('redirect',views.redirect),
+    path('',views.login)
 ]

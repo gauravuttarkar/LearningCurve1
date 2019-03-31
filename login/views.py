@@ -22,8 +22,9 @@ def login(request):
 	return render(request,'login/templates/login.html')
 
 def logout(request):
-	auth.logout(request)
-	return redirect('/')
+    print('Logout')
+    auth.logout(request)
+    return render(request,'login/templates/login.html')
 
 
 def signup(request):
@@ -66,8 +67,8 @@ def logging_in(request):
 
 def google(request):
     state = str(uuid.uuid4())
-    flow = OAuth2WebServerFlow(client_id='57992333576-j6f3balflio7pif1t209dv2evl2a8mm8.apps.googleusercontent.com',
-                           client_secret='NdcXppY4DdTg_Qh5G1DO2w0k',
+    flow = OAuth2WebServerFlow(client_id='57992333576-h76g51m5lleeuddnm0jcibi9n5o00oka.apps.googleusercontent.com',
+                           client_secret='EpVO73qX4RnANjT9UD-vmI22',
                            scope='https://www.googleapis.com/auth/calendar',
                            redirect_uri='https://ab9649c6.ngrok.io/authenticate/redirect',
                            state=state)
@@ -80,8 +81,8 @@ def google(request):
     return HttpResponseRedirect(auth_uri)
 
 def redirect(request):
-    flow = OAuth2WebServerFlow(client_id='57992333576-j6f3balflio7pif1t209dv2evl2a8mm8.apps.googleusercontent.com',
-                           client_secret='NdcXppY4DdTg_Qh5G1DO2w0k',
+    flow = OAuth2WebServerFlow(client_id='57992333576-h76g51m5lleeuddnm0jcibi9n5o00oka.apps.googleusercontent.com',
+                           client_secret='EpVO73qX4RnANjT9UD-vmI22',
                            scope='https://www.googleapis.com/auth/calendar',
                            redirect_uri='https://ab9649c6.ngrok.io/authenticate/redirect')
     code = request.GET.get("code")

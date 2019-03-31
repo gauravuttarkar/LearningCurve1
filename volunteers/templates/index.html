@@ -2,36 +2,67 @@
 <html>
 <head>
 	<title>Volunteer</title>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 </head>
 <body>
-	        {% if user.is_authenticated %}
-        
-        <div class="right item">
-          <a class="ui  button" style="margin-right: 10px">Hello {{ user.username }}</a>
-          <a class="ui  button" href="/logout">Logout</a>
-        </div>
-        {% else %}
-         <div class="right item">
-          <a class="ui  button" style="margin-right: 10px "href="/login">Login</a>
-          <a class="ui  button" href="/signup">Sign Up</a>
-        </div>
-        {% endif %}
+	<div class='container'>
+		<div class="jumbotron jumbotron-fluid">
+		  <div class="container">
+		    <h1 class="display-4">Welcome {{request.user.username}}</h1>
+		    <div><a href='/authenticate/logout'>Logout</a></div>
+		  </div>
+		</div>
+
 	<h2>
 		Your classes
 	</h2>
-	<ol>
-	{% for req in yourList %}
-	<li>
-	{{ req.school }}
-	{{ req.startTime }}
-	{{ req.endTIme}}
-	</li>
-	
-	{% endfor %}
-	</ol>
+	<table class="table table-bordered" style="width:8	0%;margin: 0 auto;">
+		<tr>
+			<th>Sl. No</th>
+			<th>School</th>
+			<th>Start Time</th>
+    		<th>EndTime</th>
+		</tr>
+		{% for req in yourList %}
+		<tr>
+			<td>{{forloop.counter}}</td>
+			<td>{{ req.school }}</td>
+			<td>{{ req.startTime|slice:":10" }} Time: {{ req.startTime|slice:"11:16" }}</td>
+			<td>{{ req.endTime|slice:":10" }} Time: {{ req.endTime|slice:"11:16" }}</td>
+			
+		</tr>
+		{% endfor %}
+	</table>
+
 	<h2>List of available classes</h2>
 	<form method="POST" action="/volunteers/confirm_events">
-	<ol>
+	<table class="table table-bordered" style="width:8	0%;margin: 0 auto;">
+		<tr>
+			<th>Sl. No</th>
+			<th>School</th>
+			<th>Start Time</th>
+    		<th>EndTime</th>
+    		<th>Distance</th>
+    		<th>Duration</th>
+    		<th>Select</th>
+		</tr>
+		{% for req in requestList %}
+		<tr>
+			<td>{{forloop.counter}}</td>
+			<td>{{ req.school }}</td>
+			<td>{{ req.startTime|slice:":10" }} Time: {{ req.startTime|slice:"11:16" }}</td>
+			<td>{{ req.endTime|slice:":10" }} Time: {{ req.endTime|slice:"11:16" }}</td>
+			<td>{{ req.distance }}</td>
+			<td>{{ req.duration }}</td>
+			<td><input type="checkbox" name="selectedEvent" value="{{req.id}}"></td>
+		</tr>
+		{% endfor %}
+	</table>
+<!-- 	<ol>
 	{% for req in requestList %}
 	<li>
 	{{ req.school }}
@@ -42,8 +73,9 @@
 	</li>
 	<input type="checkbox" name="selectedEvent" value="{{req.id}}">
 	{% endfor %}
-	</ol>
+	</ol> -->
 	<button type="submit">Submit</button>
 	</form>
+</div>
 </body>
 </html>
